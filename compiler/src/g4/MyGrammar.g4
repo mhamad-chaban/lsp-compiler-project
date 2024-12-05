@@ -1,41 +1,62 @@
 grammar MyGrammar;
 
-classStructure
-    :   ('public' | 'private') 'class' ID
+variableStructure
+    :   type ID '=' Value ';' ;
+
+functionStructure
+    :   ('public' | 'private') 'void' ID '(' functionParameters? ')'
         '{'
-            elementsStructure*
+            statement*
         '}'
     ;
 
-elementsStructure
-    :   propertyStructure | functionStructure ;
-
-propertyStructure
-    :   ('public' | 'private')
-
-attributeDeclaration
-    :   'private' 'final' type ID ';' ;
-
-methodDeclaration
-    :   'public' type ID '(' parameterList? ')' '{'
-            statement*
-        '}' ;
-
-type:   builtInType
+type:   defaultType
     |   ID
     ;
 
-builtInType
-    :   'int'
-    |   'double'
-    |   'void'
+defaultType
+    :   'number'
+    |   'boolean'
+    |   'string'
     ;
 
-parameterList
-    :   type ID ( ',' type ID )* ;
+functionParameters
+    :   type ID ( ',' type ID)*
+    ;
+
+ifStructure
+    :   'if' '(' booleanExpression ')'
+        '{'
+            statement*
+        '}'
+
+booleanExpression
+    :   
+    booleanExpression
+        :   booleanTerm (('&&' | '||') booleanTerm)*
+        ;
+
+    booleanTerm
+        :   booleanFactor ('==' booleanFactor)?
+        ;
+
+    booleanFactor
+        :   BooleanValue
+        |   ID
+        |   '(' booleanExpression ')'
+        ;
 
 statement
     :   ID ';' ;
 
-ID  :   [a-zA-Z]+ ;
-WS  :   [ \t\r\n]+ -> skip ;
+Value
+    :   NumberValue
+    |   BooleanValue
+    |   StringValue
+    ;
+
+NumberValue  :   [0-9]+ ('.' [0-9]+)?        ;
+BooleanValue :   'true' | 'false'            ;
+StringValue  :   '"' (~["\\] | '\\' .)* '"'  ;
+ID           :   [a-zA-Z]+                   ;
+WS           :   [ \t\r\n]+ -> skip          ;
