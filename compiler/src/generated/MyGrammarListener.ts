@@ -3,13 +3,15 @@
 import {ParseTreeListener} from "antlr4";
 
 
-import { ClassDeclarationContext } from "./MyGrammarParser.js";
-import { MemberDeclarationContext } from "./MyGrammarParser.js";
-import { AttributeDeclarationContext } from "./MyGrammarParser.js";
-import { MethodDeclarationContext } from "./MyGrammarParser.js";
+import { VariableStructureContext } from "./MyGrammarParser.js";
+import { FunctionStructureContext } from "./MyGrammarParser.js";
 import { TypeContext } from "./MyGrammarParser.js";
-import { BuiltInTypeContext } from "./MyGrammarParser.js";
-import { ParameterListContext } from "./MyGrammarParser.js";
+import { DefaultTypeContext } from "./MyGrammarParser.js";
+import { FunctionParametersContext } from "./MyGrammarParser.js";
+import { IfStructureContext } from "./MyGrammarParser.js";
+import { BooleanExpressionContext } from "./MyGrammarParser.js";
+import { BooleanTermContext } from "./MyGrammarParser.js";
+import { BooleanFactorContext } from "./MyGrammarParser.js";
 import { StatementContext } from "./MyGrammarParser.js";
 
 
@@ -19,45 +21,25 @@ import { StatementContext } from "./MyGrammarParser.js";
  */
 export default class MyGrammarListener extends ParseTreeListener {
 	/**
-	 * Enter a parse tree produced by `MyGrammarParser.classDeclaration`.
+	 * Enter a parse tree produced by `MyGrammarParser.variableStructure`.
 	 * @param ctx the parse tree
 	 */
-	enterClassDeclaration?: (ctx: ClassDeclarationContext) => void;
+	enterVariableStructure?: (ctx: VariableStructureContext) => void;
 	/**
-	 * Exit a parse tree produced by `MyGrammarParser.classDeclaration`.
+	 * Exit a parse tree produced by `MyGrammarParser.variableStructure`.
 	 * @param ctx the parse tree
 	 */
-	exitClassDeclaration?: (ctx: ClassDeclarationContext) => void;
+	exitVariableStructure?: (ctx: VariableStructureContext) => void;
 	/**
-	 * Enter a parse tree produced by `MyGrammarParser.memberDeclaration`.
+	 * Enter a parse tree produced by `MyGrammarParser.functionStructure`.
 	 * @param ctx the parse tree
 	 */
-	enterMemberDeclaration?: (ctx: MemberDeclarationContext) => void;
+	enterFunctionStructure?: (ctx: FunctionStructureContext) => void;
 	/**
-	 * Exit a parse tree produced by `MyGrammarParser.memberDeclaration`.
+	 * Exit a parse tree produced by `MyGrammarParser.functionStructure`.
 	 * @param ctx the parse tree
 	 */
-	exitMemberDeclaration?: (ctx: MemberDeclarationContext) => void;
-	/**
-	 * Enter a parse tree produced by `MyGrammarParser.attributeDeclaration`.
-	 * @param ctx the parse tree
-	 */
-	enterAttributeDeclaration?: (ctx: AttributeDeclarationContext) => void;
-	/**
-	 * Exit a parse tree produced by `MyGrammarParser.attributeDeclaration`.
-	 * @param ctx the parse tree
-	 */
-	exitAttributeDeclaration?: (ctx: AttributeDeclarationContext) => void;
-	/**
-	 * Enter a parse tree produced by `MyGrammarParser.methodDeclaration`.
-	 * @param ctx the parse tree
-	 */
-	enterMethodDeclaration?: (ctx: MethodDeclarationContext) => void;
-	/**
-	 * Exit a parse tree produced by `MyGrammarParser.methodDeclaration`.
-	 * @param ctx the parse tree
-	 */
-	exitMethodDeclaration?: (ctx: MethodDeclarationContext) => void;
+	exitFunctionStructure?: (ctx: FunctionStructureContext) => void;
 	/**
 	 * Enter a parse tree produced by `MyGrammarParser.type`.
 	 * @param ctx the parse tree
@@ -69,25 +51,65 @@ export default class MyGrammarListener extends ParseTreeListener {
 	 */
 	exitType?: (ctx: TypeContext) => void;
 	/**
-	 * Enter a parse tree produced by `MyGrammarParser.builtInType`.
+	 * Enter a parse tree produced by `MyGrammarParser.defaultType`.
 	 * @param ctx the parse tree
 	 */
-	enterBuiltInType?: (ctx: BuiltInTypeContext) => void;
+	enterDefaultType?: (ctx: DefaultTypeContext) => void;
 	/**
-	 * Exit a parse tree produced by `MyGrammarParser.builtInType`.
+	 * Exit a parse tree produced by `MyGrammarParser.defaultType`.
 	 * @param ctx the parse tree
 	 */
-	exitBuiltInType?: (ctx: BuiltInTypeContext) => void;
+	exitDefaultType?: (ctx: DefaultTypeContext) => void;
 	/**
-	 * Enter a parse tree produced by `MyGrammarParser.parameterList`.
+	 * Enter a parse tree produced by `MyGrammarParser.functionParameters`.
 	 * @param ctx the parse tree
 	 */
-	enterParameterList?: (ctx: ParameterListContext) => void;
+	enterFunctionParameters?: (ctx: FunctionParametersContext) => void;
 	/**
-	 * Exit a parse tree produced by `MyGrammarParser.parameterList`.
+	 * Exit a parse tree produced by `MyGrammarParser.functionParameters`.
 	 * @param ctx the parse tree
 	 */
-	exitParameterList?: (ctx: ParameterListContext) => void;
+	exitFunctionParameters?: (ctx: FunctionParametersContext) => void;
+	/**
+	 * Enter a parse tree produced by `MyGrammarParser.ifStructure`.
+	 * @param ctx the parse tree
+	 */
+	enterIfStructure?: (ctx: IfStructureContext) => void;
+	/**
+	 * Exit a parse tree produced by `MyGrammarParser.ifStructure`.
+	 * @param ctx the parse tree
+	 */
+	exitIfStructure?: (ctx: IfStructureContext) => void;
+	/**
+	 * Enter a parse tree produced by `MyGrammarParser.booleanExpression`.
+	 * @param ctx the parse tree
+	 */
+	enterBooleanExpression?: (ctx: BooleanExpressionContext) => void;
+	/**
+	 * Exit a parse tree produced by `MyGrammarParser.booleanExpression`.
+	 * @param ctx the parse tree
+	 */
+	exitBooleanExpression?: (ctx: BooleanExpressionContext) => void;
+	/**
+	 * Enter a parse tree produced by `MyGrammarParser.booleanTerm`.
+	 * @param ctx the parse tree
+	 */
+	enterBooleanTerm?: (ctx: BooleanTermContext) => void;
+	/**
+	 * Exit a parse tree produced by `MyGrammarParser.booleanTerm`.
+	 * @param ctx the parse tree
+	 */
+	exitBooleanTerm?: (ctx: BooleanTermContext) => void;
+	/**
+	 * Enter a parse tree produced by `MyGrammarParser.booleanFactor`.
+	 * @param ctx the parse tree
+	 */
+	enterBooleanFactor?: (ctx: BooleanFactorContext) => void;
+	/**
+	 * Exit a parse tree produced by `MyGrammarParser.booleanFactor`.
+	 * @param ctx the parse tree
+	 */
+	exitBooleanFactor?: (ctx: BooleanFactorContext) => void;
 	/**
 	 * Enter a parse tree produced by `MyGrammarParser.statement`.
 	 * @param ctx the parse tree

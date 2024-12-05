@@ -29,22 +29,21 @@ ifStructure
         '{'
             statement*
         '}'
+    ;
 
-booleanExpression
-    :   
-    booleanExpression
-        :   booleanTerm (('&&' | '||') booleanTerm)*
-        ;
+booleanExpression   
+    :   booleanTerm (('&&' | '||') booleanTerm)*
+    ;
 
-    booleanTerm
-        :   booleanFactor ('==' booleanFactor)?
-        ;
+ booleanTerm
+    :   booleanFactor ('==' booleanFactor)?
+    ;
 
-    booleanFactor
-        :   BooleanValue
-        |   ID
-        |   '(' booleanExpression ')'
-        ;
+booleanFactor
+    :   BooleanValue
+    |   ID
+    |   '(' booleanExpression ')'
+    ;
 
 statement
     :   ID ';' ;

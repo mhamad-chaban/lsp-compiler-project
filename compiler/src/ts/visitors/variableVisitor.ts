@@ -1,32 +1,35 @@
-import MyGrammarParser from "../../generated/MyGrammarParser";
-import MyGrammarVisitor from "../../generated/MyGrammarVisitor";
+import MyGrammarParser, { VariableStructureContext } from "../../generated/MyGrammarParser.js";
+import NumberValueContext from "../../generated/MyGrammarParser.js";
+import MyGrammarVisitor from "../../generated/MyGrammarVisitor.js";
 
-interface Diagnostic {
+export interface Diagnostic {
     message: string;
     line: number;
-    column: number;
     severity: "error" | "warning";
 }
 
 export class VariableVisitor extends MyGrammarVisitor<void> {
     private diagnostics: Diagnostic[] = [];
 
-    public getDiagnostics() {
+    public getDiagnostics(): Diagnostic[] {
         return this.diagnostics;
     }
 
-    public visitVariableStructure(ctx: any) {
-        const type = ctx.type().text;
-        const valueCtx = ctx.value();
+    // Define the visitVariableStructure method as a property function
+    public visitVariableStructure = (ctx: VariableStructureContext): void => {
+        const type = ctx.type_().getText();
+        const valueCtx = ctx.Value();
 
         // Example error: type mismatch
-        if (type === 'number' && !(valueCtx instanceof MyGrammarParser)) {
+        if (type === 'number' && !(valueCtx instanceof NumberValueContext)) {
             this.diagnostics.push({
-                message: `Error: Type mismatch. Expected a number but got '${valueCtx.text}'.`,
+                message: `Error: Type mismatch. Expected a number but got '${valueCtx.getText()}'.`,
                 line: ctx.start.line,
-                column: ctx.start.charPositionInLine,
                 severity: 'error'
             });
         }
-    }
+
+        // Continue visiting other nodes
+        this.visitChildren(ctx);
+    };
 }
