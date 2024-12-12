@@ -1,7 +1,7 @@
 grammar MyGrammar;
 
 variableStructure
-    :   type ID '=' Value ';' ;
+    :   type ID '=' value ';' ;
 
 functionStructure
     :   ('public' | 'private') 'void' ID '(' functionParameters? ')'
@@ -35,7 +35,7 @@ booleanExpression
     :   booleanTerm (('&&' | '||') booleanTerm)*
     ;
 
- booleanTerm
+booleanTerm
     :   booleanFactor ('==' booleanFactor)?
     ;
 
@@ -48,7 +48,7 @@ booleanFactor
 statement
     :   ID ';' ;
 
-Value
+value
     :   NumberValue
     |   BooleanValue
     |   StringValue

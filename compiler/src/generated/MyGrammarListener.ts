@@ -13,6 +13,7 @@ import { BooleanExpressionContext } from "./MyGrammarParser.js";
 import { BooleanTermContext } from "./MyGrammarParser.js";
 import { BooleanFactorContext } from "./MyGrammarParser.js";
 import { StatementContext } from "./MyGrammarParser.js";
+import { ValueContext } from "./MyGrammarParser.js";
 
 
 /**
@@ -120,5 +121,15 @@ export default class MyGrammarListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitStatement?: (ctx: StatementContext) => void;
+	/**
+	 * Enter a parse tree produced by `MyGrammarParser.value`.
+	 * @param ctx the parse tree
+	 */
+	enterValue?: (ctx: ValueContext) => void;
+	/**
+	 * Exit a parse tree produced by `MyGrammarParser.value`.
+	 * @param ctx the parse tree
+	 */
+	exitValue?: (ctx: ValueContext) => void;
 }
 

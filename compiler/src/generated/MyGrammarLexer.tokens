@@ -15,12 +15,11 @@ T__13=14
 T__14=15
 T__15=16
 T__16=17
-Value=18
-NumberValue=19
-BooleanValue=20
-StringValue=21
-ID=22
-WS=23
+NumberValue=18
+BooleanValue=19
+StringValue=20
+ID=21
+WS=22
 '='=1
 ';'=2
 'public'=3

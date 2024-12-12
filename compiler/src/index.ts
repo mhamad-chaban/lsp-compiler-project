@@ -4,12 +4,18 @@ import MyGrammarParser from "./generated/MyGrammarParser.js";
 import { VariableVisitor } from "./ts/visitors/variableVisitor.js";
 
 
-const input = `
-number x = 42;
-string y = "hello";
-boolean z = true;
-number temp = "not a number"; // This should trigger a type mismatch error
-`;
+const numberInput = `
+number x = 10.5;
+`
+const stringInput = `
+string x = "Hello, World!";
+`
+const booleanInput = `
+boolean x = true;
+`
+const invalidInput = `
+number x = "Hello, World!";
+`
 
 function parseAndValidate(input: string) {
     // Create a CharStream from the input
@@ -35,4 +41,4 @@ function parseAndValidate(input: string) {
 }
 
 // Parse and validate the input
-parseAndValidate(input);
+parseAndValidate(numberInput);

@@ -13,6 +13,7 @@ import { BooleanExpressionContext } from "./MyGrammarParser.js";
 import { BooleanTermContext } from "./MyGrammarParser.js";
 import { BooleanFactorContext } from "./MyGrammarParser.js";
 import { StatementContext } from "./MyGrammarParser.js";
+import { ValueContext } from "./MyGrammarParser.js";
 
 
 /**
@@ -83,5 +84,11 @@ export default class MyGrammarVisitor<Result> extends ParseTreeVisitor<Result> {
 	 * @return the visitor result
 	 */
 	visitStatement?: (ctx: StatementContext) => Result;
+	/**
+	 * Visit a parse tree produced by `MyGrammarParser.value`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitValue?: (ctx: ValueContext) => Result;
 }
 
