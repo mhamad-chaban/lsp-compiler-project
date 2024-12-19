@@ -1,7 +1,7 @@
 import { CharStreams, CommonTokenStream } from "antlr4";
 import MyGrammarLexer from "./generated/MyGrammarLexer.js";
 import MyGrammarParser from "./generated/MyGrammarParser.js";
-import { VariableVisitor } from "./ts/visitors/variableVisitor.js";
+import { CustomVisitor } from "./ts/visitors/CustomVisitor.js";
 
 
 const numberInput = `
@@ -13,8 +13,12 @@ string x = "Hello, World!";
 const booleanInput = `
 boolean x = true;
 `
-const invalidInput = `
+const semanticallyBadInput = `
 number x = "Hello, World!";
+`
+// This input should cause a syntax error: no semicolon at the end
+const synacticallyBadInput = `
+number x = 10.5
 `
 
 function parseAndValidate(input: string) {
@@ -30,7 +34,7 @@ function parseAndValidate(input: string) {
     const tree = parser.variableStructure(); // Adjust based on your entry rule
 
     // Create a visitor and visit the parse tree
-    const visitor = new VariableVisitor();
+    const visitor = new CustomVisitor();
     visitor.visit(tree);
 
     // Get and print diagnostics
@@ -41,4 +45,4 @@ function parseAndValidate(input: string) {
 }
 
 // Parse and validate the input
-parseAndValidate(numberInput);
+parseAndValidate(synacticallyBadInput);

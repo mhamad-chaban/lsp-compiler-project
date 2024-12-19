@@ -8,7 +8,7 @@ export interface Diagnostic {
     severity: "error" | "warning";
 }
 
-export class VariableVisitor extends MyGrammarVisitor<void> {
+export class CustomVisitor extends MyGrammarVisitor<void> {
     private diagnostics: Diagnostic[] = [];
 
     public getDiagnostics(): Diagnostic[] {
