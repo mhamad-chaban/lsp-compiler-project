@@ -1,4 +1,4 @@
-import { VariableStructureContext, ValueContext } from "../../generated/MyGrammarParser.js";
+import { VariableStructureContext, ValueContext, IfStructureContext } from "../../generated/MyGrammarParser.js";
 import MyGrammarVisitor from "../../generated/MyGrammarVisitor.js";
 
 
@@ -73,5 +73,9 @@ export class CustomVisitor extends MyGrammarVisitor<void> {
         const isBoolean = valueCtx.BooleanValue() !== null;
         console.log(`Checking if valueCtx is a boolean: ${isBoolean}`);
         return isBoolean;
+    }
+
+    public visitIfStrucutre = (ctx: IfStructureContext): void => {
+        
     }
 }
