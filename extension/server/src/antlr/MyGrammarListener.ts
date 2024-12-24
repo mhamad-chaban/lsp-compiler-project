@@ -3,6 +3,7 @@
 import {ParseTreeListener} from "antlr4";
 
 
+import { ProgramContext } from "./MyGrammarParser.js";
 import { VariableStructureContext } from "./MyGrammarParser.js";
 import { FunctionStructureContext } from "./MyGrammarParser.js";
 import { TypeContext } from "./MyGrammarParser.js";
@@ -21,6 +22,16 @@ import { ValueContext } from "./MyGrammarParser.js";
  * `MyGrammarParser`.
  */
 export default class MyGrammarListener extends ParseTreeListener {
+	/**
+	 * Enter a parse tree produced by `MyGrammarParser.program`.
+	 * @param ctx the parse tree
+	 */
+	enterProgram?: (ctx: ProgramContext) => void;
+	/**
+	 * Exit a parse tree produced by `MyGrammarParser.program`.
+	 * @param ctx the parse tree
+	 */
+	exitProgram?: (ctx: ProgramContext) => void;
 	/**
 	 * Enter a parse tree produced by `MyGrammarParser.variableStructure`.
 	 * @param ctx the parse tree

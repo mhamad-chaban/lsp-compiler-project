@@ -22,6 +22,14 @@ import {
 import {
 	TextDocument
 } from 'vscode-languageserver-textdocument';
+import { completionsList } from './completions/completions';
+import { CharStreams, CommonTokenStream } from 'antlr4';
+import MyGrammarLexer from './antlr/MyGrammarLexer';
+import MyGrammarParser from './antlr/MyGrammarParser';
+import { CustomVisitor } from './antlr/CustomVisitor';
+import { log } from 'console';
+import { Severity } from './antlr/Diagnostic';
+import { CustomErrorListener } from './antlr/CustomErrorlistener';
 
 // Create a connection for the server, using Node's IPC as a transport.
 // Also include all preview / proposed LSP features.
@@ -160,48 +168,52 @@ documents.onDidChangeContent(change => {
 });
 
 async function validateTextDocument(textDocument: TextDocument): Promise<Diagnostic[]> {
-	// In this simple example we get the settings for every validate run.
-	const settings = await getDocumentSettings(textDocument.uri);
-
-	// The validator creates diagnostics for all uppercase words length 2 and more
 	const text = textDocument.getText();
-	const pattern = /\b[A-Z]{2,}\b/g;
-	let m: RegExpExecArray | null;
+    const inputStream = CharStreams.fromString(text);
+    const lexer = new MyGrammarLexer(inputStream);
+    const tokenStream = new CommonTokenStream(lexer);
+    const parser = new MyGrammarParser(tokenStream);
 
-	let problems = 0;
-	const diagnostics: Diagnostic[] = [];
-	while ((m = pattern.exec(text)) && problems < settings.maxNumberOfProblems) {
-		problems++;
-		const diagnostic: Diagnostic = {
-			severity: DiagnosticSeverity.Warning,
-			range: {
-				start: textDocument.positionAt(m.index),
-				end: textDocument.positionAt(m.index + m[0].length)
+	// Attaching the error listener to the parser
+	const errorListener = new CustomErrorListener();
+	parser.removeErrorListeners();
+	parser.addErrorListener(errorListener);
+
+    const visitor = new CustomVisitor();
+    visitor.visit(parser.program());
+
+	const syntaxDiagnostics = errorListener.getDiagnostics().map(diag => ({
+		severity: diag.severity === Severity.Error ? DiagnosticSeverity.Error : DiagnosticSeverity.Warning,
+		range: {
+			start: {
+				line: diag.range.start.line,
+				character: diag.range.start.character
 			},
-			message: `${m[0]} is all uppercase.`,
-			source: 'ex'
-		};
-		if (hasDiagnosticRelatedInformationCapability) {
-			diagnostic.relatedInformation = [
-				{
-					location: {
-						uri: textDocument.uri,
-						range: Object.assign({}, diagnostic.range)
-					},
-					message: 'Spelling matters'
-				},
-				{
-					location: {
-						uri: textDocument.uri,
-						range: Object.assign({}, diagnostic.range)
-					},
-					message: 'Particularly for names'
-				}
-			];
-		}
-		diagnostics.push(diagnostic);
-	}
-	return diagnostics;
+			end: {
+				line: diag.range.end.line ?? diag.range.start.line,
+				character: diag.range.end.character ?? diag.range.start.character
+			}
+		},
+		message: diag.message,
+		source: diag.source
+    }));
+    const semanticDiagnostics = visitor.getDiagnostics().map(diag => ({
+		severity: diag.severity === Severity.Error ? DiagnosticSeverity.Error : DiagnosticSeverity.Warning,
+		range: {
+			start: {
+				line: diag.range.start.line,
+				character: diag.range.start.character
+			},
+			end: {
+				line: diag.range.end.line ?? diag.range.start.line,
+				character: diag.range.end.character ?? diag.range.start.character
+			}
+		},
+		message: diag.message,
+		source: diag.source
+    }));
+	
+	return [...syntaxDiagnostics, ...semanticDiagnostics];
 }
 
 connection.onDidChangeWatchedFiles(_change => {
@@ -215,89 +227,7 @@ connection.onCompletion(
 		// The pass parameter contains the position of the text document in
 		// which code complete got requested. For the example we ignore this
 		// info and always provide the same completion items.
-		return [
-			{
-				label: 'number',
-				kind: CompletionItemKind.Keyword,
-				data: 'number'
-			},
-			{
-				label: 'boolean',
-				kind: CompletionItemKind.Keyword,
-				data: 'boolean'
-			},
-			{
-				label: 'string',
-				kind: CompletionItemKind.Keyword,
-				data: 'string'
-			},
-			{
-				label: 'if',
-				kind: CompletionItemKind.Keyword,
-				data: 'if'
-			},
-			{
-				label: '&&',
-				kind: CompletionItemKind.Operator,
-				data: '&&'
-			},
-			{
-				label: '||',
-				kind: CompletionItemKind.Operator,
-				data: '||'
-			},
-			{
-				label: '==',
-				kind: CompletionItemKind.Operator,
-				data: '=='
-			},
-			{
-				label: 'public',
-				kind: CompletionItemKind.Keyword,
-				data: 'public'
-			},
-			{
-				label: 'private',
-				kind: CompletionItemKind.Keyword,
-				data: 'private'
-			},
-			{
-				label: 'void',
-				kind: CompletionItemKind.Keyword,
-				data: 'void'
-			},
-			{
-				label: '(',
-				kind: CompletionItemKind.Operator,
-				data: '('
-			},
-			{
-				label: ')',
-				kind: CompletionItemKind.Operator,
-				data: ')'
-			},
-			{
-				label: '{',
-				kind: CompletionItemKind.Operator,
-				data: '{'
-			},
-			{
-				label: '}',
-				kind: CompletionItemKind.Operator,
-				data: '}'
-			},
-			{
-				label: ',',
-				kind: CompletionItemKind.Operator,
-				data: ','
-			},
-			// function
-			{
-				label: 'function',
-				kind: CompletionItemKind.Function,
-				data: 'function'
-			}
-		];
+		return completionsList;
 	}
 );
 
