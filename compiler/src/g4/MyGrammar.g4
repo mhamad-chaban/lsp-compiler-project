@@ -1,5 +1,9 @@
 grammar MyGrammar;
 
+program
+    :   (variableStructure | functionStructure | ifStructure)* EOF
+    ;
+
 variableStructure
     :   type ID '=' value ';' ;
 
