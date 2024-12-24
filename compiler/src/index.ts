@@ -46,3 +46,6 @@ function parseAndValidate(input: string) {
 
 // Parse and validate the input
 parseAndValidate(synacticallyBadInput);
+export { default as MyGrammarLexer } from './generated/MyGrammarLexer.js';
+export { default as MyGrammarParser } from './generated/MyGrammarParser.js';
+export { CustomVisitor } from './ts/visitors/CustomVisitor.js';

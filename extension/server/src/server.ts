@@ -217,14 +217,85 @@ connection.onCompletion(
 		// info and always provide the same completion items.
 		return [
 			{
-				label: 'TypeScript',
-				kind: CompletionItemKind.Text,
-				data: 1
+				label: 'number',
+				kind: CompletionItemKind.Keyword,
+				data: 'number'
 			},
 			{
-				label: 'JavaScript',
-				kind: CompletionItemKind.Text,
-				data: 2
+				label: 'boolean',
+				kind: CompletionItemKind.Keyword,
+				data: 'boolean'
+			},
+			{
+				label: 'string',
+				kind: CompletionItemKind.Keyword,
+				data: 'string'
+			},
+			{
+				label: 'if',
+				kind: CompletionItemKind.Keyword,
+				data: 'if'
+			},
+			{
+				label: '&&',
+				kind: CompletionItemKind.Operator,
+				data: '&&'
+			},
+			{
+				label: '||',
+				kind: CompletionItemKind.Operator,
+				data: '||'
+			},
+			{
+				label: '==',
+				kind: CompletionItemKind.Operator,
+				data: '=='
+			},
+			{
+				label: 'public',
+				kind: CompletionItemKind.Keyword,
+				data: 'public'
+			},
+			{
+				label: 'private',
+				kind: CompletionItemKind.Keyword,
+				data: 'private'
+			},
+			{
+				label: 'void',
+				kind: CompletionItemKind.Keyword,
+				data: 'void'
+			},
+			{
+				label: '(',
+				kind: CompletionItemKind.Operator,
+				data: '('
+			},
+			{
+				label: ')',
+				kind: CompletionItemKind.Operator,
+				data: ')'
+			},
+			{
+				label: '{',
+				kind: CompletionItemKind.Operator,
+				data: '{'
+			},
+			{
+				label: '}',
+				kind: CompletionItemKind.Operator,
+				data: '}'
+			},
+			{
+				label: ',',
+				kind: CompletionItemKind.Operator,
+				data: ','
+			},
+			// function
+			{
+				label: 'function',
+				kind: CompletionItemKind.Function,
+				data: 'function'
 			}
 		];
 	}

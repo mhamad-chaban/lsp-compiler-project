@@ -1,7 +1,8 @@
 {
-  "name": "compiler",
+  "name": "my-antlr",
   "version": "1.0.0",
   "main": "index.js",
+  "types": "index.d.ts",
   "type": "module",
   "scripts": {
     "build": "tsc",

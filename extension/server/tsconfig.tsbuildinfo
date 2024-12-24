@@ -1,1 +1,1 @@
-{"root":["./src/server.ts"],"version":"5.7.2"}
+{"root":["./src/server.ts","./src/antlr/basicjavalexer.ts","./src/antlr/mygrammarlexer.ts","./src/antlr/mygrammarlistener.ts","./src/antlr/mygrammarparser.ts","./src/antlr/mygrammarvisitor.ts"],"version":"5.7.2"}
