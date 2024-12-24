@@ -3,6 +3,7 @@
 import {ParseTreeVisitor} from 'antlr4';
 
 
+import { ProgramContext } from "./MyGrammarParser.js";
 import { VariableStructureContext } from "./MyGrammarParser.js";
 import { FunctionStructureContext } from "./MyGrammarParser.js";
 import { TypeContext } from "./MyGrammarParser.js";
@@ -24,6 +25,12 @@ import { ValueContext } from "./MyGrammarParser.js";
  * operations with no return type.
  */
 export default class MyGrammarVisitor<Result> extends ParseTreeVisitor<Result> {
+	/**
+	 * Visit a parse tree produced by `MyGrammarParser.program`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitProgram?: (ctx: ProgramContext) => Result;
 	/**
 	 * Visit a parse tree produced by `MyGrammarParser.variableStructure`.
 	 * @param ctx the parse tree
