@@ -9,8 +9,24 @@ export class CustomErrorListener implements ErrorListener<Token> {
     }
 
     syntaxError(recognizer: Recognizer<Token>, offendingSymbol: Token, line: number, column: number, msg: string, e: RecognitionException | undefined): void {
+        let customMsg = msg;
+
+        if (e) {
+            const parser = recognizer as any;
+            const expectedTokens = parser.getExpectedTokens();
+            const expectedTokensString = expectedTokens.toString(parser.literalNames, parser.symbolicNames);
+
+            if (expectedTokensString.includes("ID")) {
+                customMsg = "Error: Incomplete statement. Expected an identifier.";
+            } else if (expectedTokensString.includes("=")) {
+                customMsg = "Error: Incomplete statement. Expected '='.";
+            } else if (expectedTokensString.includes("NumberValue") || expectedTokensString.includes("BooleanValue") || expectedTokensString.includes("StringValue")) {
+                customMsg = "Error: Incomplete statement. Expected a value.";
+            }
+        }
+
         this.diagnostics.push({
-            message: msg,
+            message: customMsg,
             range: {
                 start: {
                     line: line - 1,

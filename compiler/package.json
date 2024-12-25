@@ -1,9 +1,9 @@
 {
   "name": "my-antlr",
   "version": "1.0.0",
-  "main": "index.js",
-  "types": "index.d.ts",
-  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "commonjs",
   "scripts": {
     "build": "tsc",
     "start-ts": "node dist/index.js",

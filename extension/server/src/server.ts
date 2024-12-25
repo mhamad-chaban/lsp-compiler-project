@@ -23,13 +23,7 @@ import {
 	TextDocument
 } from 'vscode-languageserver-textdocument';
 import { completionsList } from './completions/completions';
-import { CharStreams, CommonTokenStream } from 'antlr4';
-import MyGrammarLexer from './antlr/MyGrammarLexer';
-import MyGrammarParser from './antlr/MyGrammarParser';
-import { CustomVisitor } from './antlr/CustomVisitor';
-import { log } from 'console';
-import { Severity } from './antlr/Diagnostic';
-import { CustomErrorListener } from './antlr/CustomErrorlistener';
+import { process } from 'my-antlr'
 
 // Create a connection for the server, using Node's IPC as a transport.
 // Also include all preview / proposed LSP features.
@@ -169,51 +163,26 @@ documents.onDidChangeContent(change => {
 
 async function validateTextDocument(textDocument: TextDocument): Promise<Diagnostic[]> {
 	const text = textDocument.getText();
-    const inputStream = CharStreams.fromString(text);
-    const lexer = new MyGrammarLexer(inputStream);
-    const tokenStream = new CommonTokenStream(lexer);
-    const parser = new MyGrammarParser(tokenStream);
 
-	// Attaching the error listener to the parser
-	const errorListener = new CustomErrorListener();
-	parser.removeErrorListeners();
-	parser.addErrorListener(errorListener);
-
-    const visitor = new CustomVisitor();
-    visitor.visit(parser.program());
-
-	const syntaxDiagnostics = errorListener.getDiagnostics().map(diag => ({
-		severity: diag.severity === Severity.Error ? DiagnosticSeverity.Error : DiagnosticSeverity.Warning,
-		range: {
-			start: {
-				line: diag.range.start.line,
-				character: diag.range.start.character
+	const diagnostics = process(text)
+	.map(diagnostic => {
+		return {
+			severity: (diagnostic.severity === 1) ? DiagnosticSeverity.Error : DiagnosticSeverity.Warning,
+			range: {
+				start: {
+					line: diagnostic.range.start.line,
+					character: diagnostic.range.start.character
+				},
+				end: {
+					line: diagnostic.range.end?.line ?? diagnostic.range.start.line,
+					character: diagnostic.range.end?.character ?? diagnostic.range.start.character
+				}
 			},
-			end: {
-				line: diag.range.end.line ?? diag.range.start.line,
-				character: diag.range.end.character ?? diag.range.start.character
-			}
-		},
-		message: diag.message,
-		source: diag.source
-    }));
-    const semanticDiagnostics = visitor.getDiagnostics().map(diag => ({
-		severity: diag.severity === Severity.Error ? DiagnosticSeverity.Error : DiagnosticSeverity.Warning,
-		range: {
-			start: {
-				line: diag.range.start.line,
-				character: diag.range.start.character
-			},
-			end: {
-				line: diag.range.end.line ?? diag.range.start.line,
-				character: diag.range.end.character ?? diag.range.start.character
-			}
-		},
-		message: diag.message,
-		source: diag.source
-    }));
-	
-	return [...syntaxDiagnostics, ...semanticDiagnostics];
+			message: diagnostic.message,
+			source: diagnostic.source
+		};
+	});
+	return diagnostics;
 }
 
 connection.onDidChangeWatchedFiles(_change => {
