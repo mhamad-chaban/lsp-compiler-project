@@ -203,9 +203,16 @@ connection.onCompletion(
             return [];
         }
 
-		log('Processing completions');
+		// Get the text of the current line
+        const position = _textDocumentPosition.position;
+        const text = document.getText({
+            start: { line: position.line, character: 0 },
+            end: { line: position.line, character: Number.MAX_SAFE_INTEGER }
+        });
+
+        log('Processing completions for line:', position.line);
 		
-		const completionsFromCompiler = processCompletions(document.getText());
+		const completionsFromCompiler = processCompletions(text);
 		
 		return completionsFromCompiler;
 	}

@@ -45,3 +45,21 @@ export const defaultCompletionList: CompletionItem[] = [
         data: "function"
     }
 ]
+
+export const variableCompletions: CompletionItem[] = [
+    {
+        label: "number",
+        kind: CompletionItemKind.Keyword,
+        data: "number"
+    },
+    {
+        label: "boolean",
+        kind: CompletionItemKind.Keyword,
+        data: "boolean"
+    },
+    {
+        label: "string",
+        kind: CompletionItemKind.Keyword,
+        data: "string"
+    }
+]
