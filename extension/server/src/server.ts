@@ -23,7 +23,8 @@ import {
 	TextDocument
 } from 'vscode-languageserver-textdocument';
 import { completionsList } from './completions/completions';
-import { process } from 'my-antlr'
+import { processDiagnostics, processCompletions } from 'my-antlr'
+import { log } from 'console';
 
 // Create a connection for the server, using Node's IPC as a transport.
 // Also include all preview / proposed LSP features.
@@ -164,7 +165,7 @@ documents.onDidChangeContent(change => {
 async function validateTextDocument(textDocument: TextDocument): Promise<Diagnostic[]> {
 	const text = textDocument.getText();
 
-	const diagnostics = process(text)
+	const diagnostics = processDiagnostics(text)
 	.map(diagnostic => {
 		return {
 			severity: (diagnostic.severity === 1) ? DiagnosticSeverity.Error : DiagnosticSeverity.Warning,
@@ -196,7 +197,17 @@ connection.onCompletion(
 		// The pass parameter contains the position of the text document in
 		// which code complete got requested. For the example we ignore this
 		// info and always provide the same completion items.
-		return completionsList;
+		// Retrieve the document using the documents manager
+        const document = documents.get(_textDocumentPosition.textDocument.uri);
+        if (!document) {
+            return [];
+        }
+
+		log('Processing completions');
+		
+		const completionsFromCompiler = processCompletions(document.getText());
+		
+		return completionsFromCompiler;
 	}
 );
 

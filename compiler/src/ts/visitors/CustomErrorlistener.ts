@@ -1,5 +1,5 @@
 import { Token, ErrorListener, RecognitionException, Recognizer } from "antlr4";
-import { Diagnostic, Severity } from "./Diagnostic";
+import { Diagnostic, Severity } from "./diagnostic/diagnostic";
 
 export class CustomErrorListener implements ErrorListener<Token> {
     private diagnostics: Diagnostic[] = [];

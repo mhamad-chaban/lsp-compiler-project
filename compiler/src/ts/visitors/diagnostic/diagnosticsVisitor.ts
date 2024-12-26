@@ -1,9 +1,9 @@
 import { Token } from "antlr4";
-import { VariableStructureContext, ValueContext, IfStructureContext } from "../../generated/MyGrammarParser.js";
-import MyGrammarVisitor from "../../generated/MyGrammarVisitor.js";
-import { Diagnostic, diagnosticMessages, Severity } from "./Diagnostic.js";
+import { VariableStructureContext, ValueContext, IfStructureContext } from "../../../generated/MyGrammarParser.js";
+import MyGrammarVisitor from "../../../generated/MyGrammarVisitor.js";
+import { Diagnostic, diagnosticMessages, Severity } from "./diagnostic.js";
 
-export class CustomVisitor extends MyGrammarVisitor<void> {
+export class DiagnosticsVisitor extends MyGrammarVisitor<void> {
     private diagnostics: Diagnostic[] = [];
 
     public getDiagnostics(): Diagnostic[] {
