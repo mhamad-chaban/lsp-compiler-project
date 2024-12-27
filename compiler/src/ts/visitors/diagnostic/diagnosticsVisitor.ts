@@ -13,10 +13,8 @@ export class DiagnosticsVisitor extends MyGrammarVisitor<void> {
     // Define the visitVariableStructure method as a property function
     public visitVariableStructure = (ctx: VariableStructureContext): void => {
         const type = ctx.type_().getText();
-        console.log(`Type: ${type}`);
         
         const valueCtx = ctx.value();
-        console.log(`Value: ${valueCtx}`);      
         if (valueCtx) {
             const valueText = valueCtx.getText();
 
@@ -45,9 +43,7 @@ export class DiagnosticsVisitor extends MyGrammarVisitor<void> {
                 );
             }
     
-            // Continue visiting other nodes
-            console.log('Visiting children...');
-            
+            // Continue visiting other nodes            
             this.visitChildren(ctx);
         }  
     };
@@ -65,26 +61,17 @@ export class DiagnosticsVisitor extends MyGrammarVisitor<void> {
     }
 
     private isNumberValue(valueCtx: ValueContext): boolean {
-        console.log(`NumberValue: ${valueCtx.NumberValue()}`);
-
         const isNumber = valueCtx.NumberValue() !== null;
-        console.log(`Checking if valueCtx is a number: ${isNumber}`);
         return isNumber;
     }
 
     private isStringValue(valueCtx: ValueContext): boolean {
-        console.log('StringValue: ', valueCtx.StringValue());
-
         const isString = valueCtx.StringValue() !== null;
-        console.log(`Checking if valueCtx is a string: ${isString}`);
         return isString;
     }
 
     private isBooleanValue(valueCtx: ValueContext): boolean {
-        console.log('BooleanValue: ', valueCtx.BooleanValue());
-
         const isBoolean = valueCtx.BooleanValue() !== null;
-        console.log(`Checking if valueCtx is a boolean: ${isBoolean}`);
         return isBoolean;
     }
 
