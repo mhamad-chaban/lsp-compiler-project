@@ -25,14 +25,11 @@ export class CompletionVisitor extends MyGrammarVisitor<void> {
 
     // Visit variable structure rule and provide completion items based on the context
     public visitVariableStructure = (ctx: VariableStructureContext): void => {
-        log('in variable structure. And the content initial content of completions is ', this.completions);
         this.completions.push(...variableTypeCompletions);
         
         // completion item for the identifier
         const identifier = ctx.ID();
-        log('identifier is ', identifier);
         if (identifier && this.isIdentifierFinalized(ctx)) {
-            log('adding identifier and it is ', identifier.getText());
             this.completions.push({
                 label: identifier.getText(),
                 kind: CompletionItemKind.Variable,
@@ -42,7 +39,6 @@ export class CompletionVisitor extends MyGrammarVisitor<void> {
     }
 
     public visitIfStructure = (ctx: IfStructureContext): void => {
-        log('in if structure. And the content initial content of completions is ', this.completions);
         this.completions.push(...ifCompletions);
     }
 

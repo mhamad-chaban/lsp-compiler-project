@@ -6,6 +6,7 @@ import { Diagnostic } from "./ts/visitors/diagnostic/diagnostic.js";
 import { CustomErrorListener } from "./ts/visitors/customErrorlistener.js";
 import { CompletionItem } from "./ts/visitors/completion/completionItem.js";
 import { CompletionVisitor } from "./ts/visitors/completion/codeCompletionVisitor.js";
+import { Position } from "./ts/visitors/completion/position.js";
 
 
 const numberInput = `
@@ -85,7 +86,7 @@ function processDiagnostics(input: string): Diagnostic[] {
     return [...syntaxDiagnostics, ...semanticDiagnostics];
 }
 
-function processCompletions(input: string): CompletionItem[] {
+function processCompletions(input: string, position: Position): CompletionItem[] {
     // Create a CharStream from the input
     const inputStream = CharStreams.fromString(input);
 
@@ -100,6 +101,7 @@ function processCompletions(input: string): CompletionItem[] {
 
     // Create a visitor and visit the parse tree
     const visitor = new CompletionVisitor();
+    visitor.setCursorPosition(position);
     visitor.visit(tree);
     
     return visitor.getCompletions();

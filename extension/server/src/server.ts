@@ -22,7 +22,6 @@ import {
 import {
 	TextDocument
 } from 'vscode-languageserver-textdocument';
-import { completionsList } from './completions/completions';
 import { processDiagnostics, processCompletions } from 'my-antlr'
 import { log } from 'console';
 
@@ -191,6 +190,8 @@ connection.onDidChangeWatchedFiles(_change => {
 	connection.console.log('We received a file change event');
 });
 
+let completions: CompletionItem[] = [];
+
 // This handler provides the initial list of the completion items.
 connection.onCompletion(
 	(_textDocumentPosition: TextDocumentPositionParams): CompletionItem[] => {
@@ -198,6 +199,7 @@ connection.onCompletion(
 		// which code complete got requested. For the example we ignore this
 		// info and always provide the same completion items.
 		// Retrieve the document using the documents manager
+		deleteNoneIdentifierCompletions();
         const document = documents.get(_textDocumentPosition.textDocument.uri);
         if (!document) {
             return [];
@@ -212,11 +214,15 @@ connection.onCompletion(
 
         log('Processing completions for line:', position.line);
 		
-		const completionsFromCompiler = processCompletions(text);
+		completions.push(...processCompletions(text, position));
 		
-		return completionsFromCompiler;
+		return completions;
 	}
 );
+
+function deleteNoneIdentifierCompletions(): void {
+	completions = completions.filter((completion) => completion.kind == CompletionItemKind.Variable);
+}
 
 // This handler resolves additional information for the item selected in
 // the completion list.
