@@ -13,40 +13,7 @@ export enum CompletionItemKind {
     Operator = 24,
 }
 
-export const defaultCompletionList: CompletionItem[] = [
-    {
-        label: "if",
-        kind: CompletionItemKind.Keyword,
-        data: "if"
-    },
-    {
-        label: "&&",
-        kind: CompletionItemKind.Operator,
-        data: "&&"
-    },
-    {
-        label: "||",
-        kind: CompletionItemKind.Operator,
-        data: "||"
-    },
-    {
-        label: "true",
-        kind: CompletionItemKind.Keyword,
-        data: "true"
-    },
-    {
-        label: "false",
-        kind: CompletionItemKind.Keyword,
-        data: "false"
-    },
-    {
-        label: "function",
-        kind: CompletionItemKind.Keyword,
-        data: "function"
-    }
-]
-
-export const variableCompletions: CompletionItem[] = [
+export const variableTypeCompletions: CompletionItem[] = [
     {
         label: "number",
         kind: CompletionItemKind.Keyword,
@@ -61,5 +28,41 @@ export const variableCompletions: CompletionItem[] = [
         label: "string",
         kind: CompletionItemKind.Keyword,
         data: "string"
+    }
+]
+
+export const ifCompletions: CompletionItem[] = [
+    {
+        label: "if() {\n\n}",
+        kind: CompletionItemKind.Keyword,
+        data: "if"
+    },
+    // {
+    //     label: "&&",
+    //     kind: CompletionItemKind.Operator,
+    //     data: "&&"
+    // },
+    // {
+    //     label: "||",
+    //     kind: CompletionItemKind.Operator,
+    //     data: "||"
+    // },
+    {
+        label: "true",
+        kind: CompletionItemKind.Keyword,
+        data: "true"
+    },
+    {
+        label: "false",
+        kind: CompletionItemKind.Keyword,
+        data: "false"
+    }
+]
+
+export const functionCompletions: CompletionItem[] = [
+    {
+        label: "function",
+        kind: CompletionItemKind.Keyword,
+        data: "function"
     }
 ]
