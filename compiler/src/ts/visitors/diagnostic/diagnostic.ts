@@ -25,5 +25,6 @@ export const diagnosticMessages =
     {
         numberError: 'Error: Type mismatch. Expected a number but got \'${valueText}\'.',
         stringError: 'Error: Type mismatch. Expected a string but got \'${valueText}\'.',
-        booleanError: 'Error: Type mismatch. Expected a boolean but got \'${valueText}\'.'
+        booleanError: 'Error: Type mismatch. Expected a boolean but got \'${valueText}\'.',
+        alwaysTrue: 'Warning: The condition is always true.'
     }

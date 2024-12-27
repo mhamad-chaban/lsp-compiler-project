@@ -1,7 +1,8 @@
 import { Token } from "antlr4";
-import { VariableStructureContext, ValueContext, IfStructureContext } from "../../../generated/MyGrammarParser.js";
+import { VariableStructureContext, ValueContext, IfStructureContext, StatementContext, BooleanFactorContext } from "../../../generated/MyGrammarParser.js";
 import MyGrammarVisitor from "../../../generated/MyGrammarVisitor.js";
 import { Diagnostic, diagnosticMessages, Severity } from "./diagnostic.js";
+import { log } from "console";
 
 export class DiagnosticsVisitor extends MyGrammarVisitor<void> {
     private diagnostics: Diagnostic[] = [];
@@ -15,7 +16,7 @@ export class DiagnosticsVisitor extends MyGrammarVisitor<void> {
         const type = ctx.type_().getText();
         
         const valueCtx = ctx.value();
-        if (valueCtx) {
+        if (valueCtx && valueCtx.getText() !== '') {
             const valueText = valueCtx.getText();
 
             // Example error: type mismatch
@@ -48,14 +49,31 @@ export class DiagnosticsVisitor extends MyGrammarVisitor<void> {
         }  
     };
 
-    private createDiagnostic(message: string, token: Token, length: number): Diagnostic {
+    public visitBooleanFactor: (ctx: BooleanFactorContext) => void = (ctx: BooleanFactorContext): void => {
+        // warning: Warn if the condition is always true
+        if (ctx.BooleanValue()) {
+            const booleanValue = ctx.BooleanValue().getText();
+            if (booleanValue === 'true') {
+                this.diagnostics.push(
+                    this.createDiagnostic(
+                        diagnosticMessages.alwaysTrue,
+                        ctx.BooleanValue().symbol,
+                        booleanValue.length,
+                        Severity.Warning
+                    )
+                );
+            }
+        }
+    }
+
+    private createDiagnostic(message: string, token: Token, length: number, severity: Severity = Severity.Error): Diagnostic {
         return {
             message,
             range: {
                 start: { line: token.line - 1, character: token.column },
                 end: { line: token.line - 1, character: token.column + length }
             },
-            severity: Severity.Error,
+            severity: severity,
             source: 'MyGrammar'
         };
     }
@@ -73,9 +91,5 @@ export class DiagnosticsVisitor extends MyGrammarVisitor<void> {
     private isBooleanValue(valueCtx: ValueContext): boolean {
         const isBoolean = valueCtx.BooleanValue() !== null;
         return isBoolean;
-    }
-
-    public visitIfStrucutre = (ctx: IfStructureContext): void => {
-        
     }
 }
