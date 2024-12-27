@@ -10,6 +10,7 @@ import { TypeContext } from "./MyGrammarParser.js";
 import { DefaultTypeContext } from "./MyGrammarParser.js";
 import { FunctionParametersContext } from "./MyGrammarParser.js";
 import { IfStructureContext } from "./MyGrammarParser.js";
+import { WhileStructureContext } from "./MyGrammarParser.js";
 import { BooleanExpressionContext } from "./MyGrammarParser.js";
 import { BooleanTermContext } from "./MyGrammarParser.js";
 import { BooleanFactorContext } from "./MyGrammarParser.js";
@@ -67,6 +68,12 @@ export default class MyGrammarVisitor<Result> extends ParseTreeVisitor<Result> {
 	 * @return the visitor result
 	 */
 	visitIfStructure?: (ctx: IfStructureContext) => Result;
+	/**
+	 * Visit a parse tree produced by `MyGrammarParser.whileStructure`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitWhileStructure?: (ctx: WhileStructureContext) => Result;
 	/**
 	 * Visit a parse tree produced by `MyGrammarParser.booleanExpression`.
 	 * @param ctx the parse tree

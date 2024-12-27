@@ -1,11 +1,11 @@
 grammar MyGrammar;
 
 program
-    :   (variableStructure | functionStructure | ifStructure)* EOF
+    :   (variableStructure | functionStructure | ifStructure | whileStructure)* EOF
     ;
 
 variableStructure
-    :   type ID '=' value ';' ;
+    :   type ID ASSIGN value ';' ;
 
 functionStructure
     :   ('public' | 'private') 'void' ID '(' functionParameters? ')'
@@ -30,6 +30,14 @@ functionParameters
 
 ifStructure
     :   'if' '(' booleanExpression ')'
+        '{'
+            statement*
+        '}'
+        ('else' '{' statement* '}')?
+    ;
+
+whileStructure
+    :   'while' '(' booleanExpression ')'
         '{'
             statement*
         '}'
@@ -62,4 +70,5 @@ NumberValue  :   [0-9]+ ('.' [0-9]+)?        ;
 BooleanValue :   'true' | 'false'            ;
 StringValue  :   '"' (~["\\] | '\\' .)* '"'  ;
 ID           :   [a-zA-Z]+                   ;
+ASSIGN       :   '='                         ;
 WS           :   [ \t\r\n]+ -> skip          ;

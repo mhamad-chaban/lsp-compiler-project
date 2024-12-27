@@ -10,6 +10,7 @@ import { TypeContext } from "./MyGrammarParser.js";
 import { DefaultTypeContext } from "./MyGrammarParser.js";
 import { FunctionParametersContext } from "./MyGrammarParser.js";
 import { IfStructureContext } from "./MyGrammarParser.js";
+import { WhileStructureContext } from "./MyGrammarParser.js";
 import { BooleanExpressionContext } from "./MyGrammarParser.js";
 import { BooleanTermContext } from "./MyGrammarParser.js";
 import { BooleanFactorContext } from "./MyGrammarParser.js";
@@ -92,6 +93,16 @@ export default class MyGrammarListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitIfStructure?: (ctx: IfStructureContext) => void;
+	/**
+	 * Enter a parse tree produced by `MyGrammarParser.whileStructure`.
+	 * @param ctx the parse tree
+	 */
+	enterWhileStructure?: (ctx: WhileStructureContext) => void;
+	/**
+	 * Exit a parse tree produced by `MyGrammarParser.whileStructure`.
+	 * @param ctx the parse tree
+	 */
+	exitWhileStructure?: (ctx: WhileStructureContext) => void;
 	/**
 	 * Enter a parse tree produced by `MyGrammarParser.booleanExpression`.
 	 * @param ctx the parse tree
