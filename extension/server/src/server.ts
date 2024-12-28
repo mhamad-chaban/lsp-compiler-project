@@ -199,7 +199,7 @@ connection.onCompletion(
 		// which code complete got requested. For the example we ignore this
 		// info and always provide the same completion items.
 		// Retrieve the document using the documents manager
-		deleteNoneIdentifierCompletions();
+		resetCompletions();
         const document = documents.get(_textDocumentPosition.textDocument.uri);
         if (!document) {
             return [];
@@ -220,7 +220,7 @@ connection.onCompletion(
 	}
 );
 
-function deleteNoneIdentifierCompletions(): void {
+function resetCompletions(): void {
 	completions = completions.filter((completion) => completion.kind == CompletionItemKind.Variable);
 }
 

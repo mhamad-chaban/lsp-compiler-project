@@ -1,4 +1,4 @@
-import { FunctionStructureContext, IfStructureContext, ProgramContext, VariableStructureContext } from "../../../generated/MyGrammarParser";
+import { FunctionDeclarationStructureContext, IfStructureContext, ProgramContext, VariableStructureContext } from "../../../generated/MyGrammarParser";
 import MyGrammarVisitor from "../../../generated/MyGrammarVisitor";
 import { CompletionItem, CompletionItemKind, defaultCompletions, functionCompletions, ifCompletions, variableTypeCompletions } from "./completionItem";
 
@@ -33,7 +33,7 @@ export class CompletionVisitor extends MyGrammarVisitor<void> {
         this.completions.push(...ifCompletions);
     }
 
-    public visitFunctionStructure = (ctx: FunctionStructureContext): void => {
+    public visitFunctionStructure = (ctx: FunctionDeclarationStructureContext): void => {
         this.completions.push(...functionCompletions);
     }
 }

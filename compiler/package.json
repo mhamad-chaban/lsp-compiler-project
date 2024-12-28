@@ -8,7 +8,8 @@
     "build": "tsc",
     "start-ts": "node dist/index.js",
     "start": "npm run build && npm run start-ts",
-    "generate-antlr": "java -jar ./antlr-4.13.2-complete.jar -visitor -Dlanguage=TypeScript -o ./src/generated ./src/g4/MyGrammar.g4"
+    "generate-antlr": "java -jar ./antlr-4.13.2-complete.jar -visitor -Dlanguage=TypeScript -o ./src/generated ./src/g4/MyGrammar.g4",
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
@@ -20,6 +21,7 @@
   },
   "devDependencies": {
     "@types/node": "^22.10.2",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.2",
+    "jest": "^29.7.0"
   }
 }

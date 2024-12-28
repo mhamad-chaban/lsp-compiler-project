@@ -52,6 +52,7 @@ function parseAndValidate(input: string) {
 // Parse and validate the input
 parseAndValidate(semanticallyBadInput);
 
+const diagnosticsVisitor = new DiagnosticsVisitor();
 
 function processDiagnostics(input: string): Diagnostic[] {
     if (!input) {
@@ -76,12 +77,11 @@ function processDiagnostics(input: string): Diagnostic[] {
     const tree = parser.program();
 
     // Create a visitor and visit the parse tree
-    const visitor = new DiagnosticsVisitor();
-    visitor.visit(tree);
+    diagnosticsVisitor.visit(tree);
 
     // Get and return diagnostics
     const syntaxDiagnostics = errorListener.getDiagnostics();
-    const semanticDiagnostics = visitor.getDiagnostics();
+    const semanticDiagnostics = diagnosticsVisitor.getDiagnostics();
     
     return [...syntaxDiagnostics, ...semanticDiagnostics];
 }
@@ -101,7 +101,6 @@ function processCompletions(input: string, position: Position): CompletionItem[]
 
     // Create a visitor and visit the parse tree
     const visitor = new CompletionVisitor();
-    visitor.setCursorPosition(position);
     visitor.visit(tree);
     
     return visitor.getCompletions();
