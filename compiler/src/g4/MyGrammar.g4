@@ -1,13 +1,13 @@
 grammar MyGrammar;
 
 program
-    :   (variableStructure | functionStructure | ifStructure | whileStructure)* EOF
+    :   (variableStructure | functionDeclarationStructure | functionCall | ifStructure | whileStructure)* EOF
     ;
 
 variableStructure
     :   type ID ASSIGN value ';' ;
 
-functionStructure
+functionDeclarationStructure
     :   ('public' | 'private') 'void' ID '(' functionParameters? ')'
         '{'
             statement*
@@ -26,6 +26,14 @@ defaultType
 
 functionParameters
     :   type ID ( ',' type ID)*
+    ;
+
+functionCall
+    :   ID '(' functionArguments? ')' ';'
+    ;
+
+functionArguments
+    :   value (',' value)*
     ;
 
 ifStructure
@@ -58,7 +66,11 @@ booleanFactor
     ;
 
 statement
-    :   ID ';' ;
+    :   variableStructure
+    |   functionCall
+    |   ifStructure
+    |   whileStructure
+    ;
 
 value
     :   NumberValue

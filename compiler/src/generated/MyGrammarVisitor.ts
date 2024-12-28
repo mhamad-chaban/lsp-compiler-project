@@ -5,10 +5,12 @@ import {ParseTreeVisitor} from 'antlr4';
 
 import { ProgramContext } from "./MyGrammarParser.js";
 import { VariableStructureContext } from "./MyGrammarParser.js";
-import { FunctionStructureContext } from "./MyGrammarParser.js";
+import { FunctionDeclarationStructureContext } from "./MyGrammarParser.js";
 import { TypeContext } from "./MyGrammarParser.js";
 import { DefaultTypeContext } from "./MyGrammarParser.js";
 import { FunctionParametersContext } from "./MyGrammarParser.js";
+import { FunctionCallContext } from "./MyGrammarParser.js";
+import { FunctionArgumentsContext } from "./MyGrammarParser.js";
 import { IfStructureContext } from "./MyGrammarParser.js";
 import { WhileStructureContext } from "./MyGrammarParser.js";
 import { BooleanExpressionContext } from "./MyGrammarParser.js";
@@ -39,11 +41,11 @@ export default class MyGrammarVisitor<Result> extends ParseTreeVisitor<Result> {
 	 */
 	visitVariableStructure?: (ctx: VariableStructureContext) => Result;
 	/**
-	 * Visit a parse tree produced by `MyGrammarParser.functionStructure`.
+	 * Visit a parse tree produced by `MyGrammarParser.functionDeclarationStructure`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	visitFunctionStructure?: (ctx: FunctionStructureContext) => Result;
+	visitFunctionDeclarationStructure?: (ctx: FunctionDeclarationStructureContext) => Result;
 	/**
 	 * Visit a parse tree produced by `MyGrammarParser.type`.
 	 * @param ctx the parse tree
@@ -62,6 +64,18 @@ export default class MyGrammarVisitor<Result> extends ParseTreeVisitor<Result> {
 	 * @return the visitor result
 	 */
 	visitFunctionParameters?: (ctx: FunctionParametersContext) => Result;
+	/**
+	 * Visit a parse tree produced by `MyGrammarParser.functionCall`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitFunctionCall?: (ctx: FunctionCallContext) => Result;
+	/**
+	 * Visit a parse tree produced by `MyGrammarParser.functionArguments`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitFunctionArguments?: (ctx: FunctionArgumentsContext) => Result;
 	/**
 	 * Visit a parse tree produced by `MyGrammarParser.ifStructure`.
 	 * @param ctx the parse tree

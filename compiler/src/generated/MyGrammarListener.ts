@@ -5,10 +5,12 @@ import {ParseTreeListener} from "antlr4";
 
 import { ProgramContext } from "./MyGrammarParser.js";
 import { VariableStructureContext } from "./MyGrammarParser.js";
-import { FunctionStructureContext } from "./MyGrammarParser.js";
+import { FunctionDeclarationStructureContext } from "./MyGrammarParser.js";
 import { TypeContext } from "./MyGrammarParser.js";
 import { DefaultTypeContext } from "./MyGrammarParser.js";
 import { FunctionParametersContext } from "./MyGrammarParser.js";
+import { FunctionCallContext } from "./MyGrammarParser.js";
+import { FunctionArgumentsContext } from "./MyGrammarParser.js";
 import { IfStructureContext } from "./MyGrammarParser.js";
 import { WhileStructureContext } from "./MyGrammarParser.js";
 import { BooleanExpressionContext } from "./MyGrammarParser.js";
@@ -44,15 +46,15 @@ export default class MyGrammarListener extends ParseTreeListener {
 	 */
 	exitVariableStructure?: (ctx: VariableStructureContext) => void;
 	/**
-	 * Enter a parse tree produced by `MyGrammarParser.functionStructure`.
+	 * Enter a parse tree produced by `MyGrammarParser.functionDeclarationStructure`.
 	 * @param ctx the parse tree
 	 */
-	enterFunctionStructure?: (ctx: FunctionStructureContext) => void;
+	enterFunctionDeclarationStructure?: (ctx: FunctionDeclarationStructureContext) => void;
 	/**
-	 * Exit a parse tree produced by `MyGrammarParser.functionStructure`.
+	 * Exit a parse tree produced by `MyGrammarParser.functionDeclarationStructure`.
 	 * @param ctx the parse tree
 	 */
-	exitFunctionStructure?: (ctx: FunctionStructureContext) => void;
+	exitFunctionDeclarationStructure?: (ctx: FunctionDeclarationStructureContext) => void;
 	/**
 	 * Enter a parse tree produced by `MyGrammarParser.type`.
 	 * @param ctx the parse tree
@@ -83,6 +85,26 @@ export default class MyGrammarListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitFunctionParameters?: (ctx: FunctionParametersContext) => void;
+	/**
+	 * Enter a parse tree produced by `MyGrammarParser.functionCall`.
+	 * @param ctx the parse tree
+	 */
+	enterFunctionCall?: (ctx: FunctionCallContext) => void;
+	/**
+	 * Exit a parse tree produced by `MyGrammarParser.functionCall`.
+	 * @param ctx the parse tree
+	 */
+	exitFunctionCall?: (ctx: FunctionCallContext) => void;
+	/**
+	 * Enter a parse tree produced by `MyGrammarParser.functionArguments`.
+	 * @param ctx the parse tree
+	 */
+	enterFunctionArguments?: (ctx: FunctionArgumentsContext) => void;
+	/**
+	 * Exit a parse tree produced by `MyGrammarParser.functionArguments`.
+	 * @param ctx the parse tree
+	 */
+	exitFunctionArguments?: (ctx: FunctionArgumentsContext) => void;
 	/**
 	 * Enter a parse tree produced by `MyGrammarParser.ifStructure`.
 	 * @param ctx the parse tree
