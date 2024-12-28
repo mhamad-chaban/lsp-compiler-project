@@ -1,5 +1,5 @@
 import { Token } from "antlr4";
-import { VariableStructureContext, ValueContext, IfStructureContext, StatementContext, BooleanFactorContext } from "../../../generated/MyGrammarParser.js";
+import { VariableStructureContext, ValueContext, IfStructureContext, StatementContext, BooleanFactorContext, FunctionStructureContext } from "../../../generated/MyGrammarParser.js";
 import MyGrammarVisitor from "../../../generated/MyGrammarVisitor.js";
 import { Diagnostic, diagnosticMessages, Severity } from "./diagnostic.js";
 import { log } from "console";
@@ -49,7 +49,7 @@ export class DiagnosticsVisitor extends MyGrammarVisitor<void> {
         }  
     };
 
-    public visitBooleanFactor: (ctx: BooleanFactorContext) => void = (ctx: BooleanFactorContext): void => {
+    public visitBooleanFactor = (ctx: BooleanFactorContext): void => {
         // warning: Warn if the condition is always true
         if (ctx.BooleanValue()) {
             const booleanValue = ctx.BooleanValue().getText();
@@ -63,6 +63,22 @@ export class DiagnosticsVisitor extends MyGrammarVisitor<void> {
                     )
                 );
             }
+        }
+    }
+
+    public visitFunctionStructure = (ctx: FunctionStructureContext): void => {
+        const statement = ctx.statement(0);
+        if (!statement) {
+            const stopToken = ctx.stop;
+            const length = stopToken ? stopToken.stop - stopToken.start : 1; // Provide a default length if stopToken is undefined
+            this.diagnostics.push(
+                this.createDiagnostic(
+                    diagnosticMessages.emptyStatement,
+                    ctx.start,
+                    length,
+                    Severity.Warning
+                )
+            );
         }
     }
 
