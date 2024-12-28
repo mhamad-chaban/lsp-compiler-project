@@ -31,6 +31,10 @@ export class CustomErrorListener implements ErrorListener<Token> {
                 customMsg = this.valueErrors(expectedTokens);
             } else if (ruleIndex === MyGrammarParser.RULE_booleanFactor) {
                 customMsg = this.booleanFactorErrors();
+            } else if (ruleIndex === MyGrammarParser.RULE_functionParameters) {
+                customMsg = this.parameterErrors();
+            } else if (ruleIndex === MyGrammarParser.RULE_functionDeclarationStructure) {
+                customMsg = this.functionStructureErrors(expectedTokens);
             }
         }
 
@@ -57,7 +61,7 @@ export class CustomErrorListener implements ErrorListener<Token> {
         } else if (expectedTokens.contains(MyGrammarParser.ASSIGN)) {
             return "Incomplete statement. Expected '='.";
         } else {
-            return "Unexpected token.";
+            return "invalid variable structure.";
         }
     }
 
@@ -69,11 +73,23 @@ export class CustomErrorListener implements ErrorListener<Token> {
         } else if (expectedTokens.contains(MyGrammarParser.BooleanValue)) {
             return "Invalid statement. Expected a boolean value.";
         } else {
-            return "Unexpected token.";
+            return "Invalid value structure.";
         }
+    }
+
+    private functionStructureErrors(expectedTokens: IntervalSet): string {
+        log("expected tokens: " + expectedTokens.toString());
+        if (expectedTokens.contains(MyGrammarParser.T__6)) { // T__6 is '{'
+            return "Missing brackets in function body.";
+        }
+        return "Invalid function structure.";
     }
 
     private booleanFactorErrors(): string {
         return "Invalid condition. Expected a boolean value or expression.";
+    }
+
+    private parameterErrors(): string {
+        return "Invalid parameter. Expected a type and an identifier.";
     }
 }

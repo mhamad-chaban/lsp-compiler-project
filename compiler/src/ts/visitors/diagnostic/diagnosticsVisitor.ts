@@ -1,14 +1,21 @@
 import { Token } from "antlr4";
-import { VariableStructureContext, ValueContext, IfStructureContext, StatementContext, BooleanFactorContext, FunctionStructureContext } from "../../../generated/MyGrammarParser.js";
+import { VariableStructureContext, ValueContext, IfStructureContext, StatementContext, BooleanFactorContext, FunctionDeclarationStructureContext, FunctionCallContext, ProgramContext } from "../../../generated/MyGrammarParser.js";
 import MyGrammarVisitor from "../../../generated/MyGrammarVisitor.js";
 import { Diagnostic, diagnosticMessages, Severity } from "./diagnostic.js";
 import { log } from "console";
 
 export class DiagnosticsVisitor extends MyGrammarVisitor<void> {
     private diagnostics: Diagnostic[] = [];
+    private functionDeclarations: FunctionDeclarationStructureContext[] = [];
 
     public getDiagnostics(): Diagnostic[] {
         return this.diagnostics;
+    }
+
+    public visitProgram = (ctx: ProgramContext): void => {
+        this.diagnostics = [];
+        this.functionDeclarations = [];
+        this.visitChildren(ctx);
     }
 
     // Define the visitVariableStructure method as a property function
@@ -66,7 +73,11 @@ export class DiagnosticsVisitor extends MyGrammarVisitor<void> {
         }
     }
 
-    public visitFunctionStructure = (ctx: FunctionStructureContext): void => {
+    public visitFunctionDeclarationStructure = (ctx: FunctionDeclarationStructureContext): void => {
+        if (ctx) {
+            this.functionDeclarations.push(ctx);
+        }
+
         const statement = ctx.statement(0);
         if (!statement) {
             const stopToken = ctx.stop;
@@ -81,6 +92,37 @@ export class DiagnosticsVisitor extends MyGrammarVisitor<void> {
             );
         }
     }
+
+    public visitFunctionCall = (ctx: FunctionCallContext): void => {
+        if (ctx) {
+            const functionName = ctx.ID().getText();
+            const functionDeclaration = this.functionDeclarations.find(declaration => declaration.ID().getText() === functionName);
+            if (!functionDeclaration) {
+                this.diagnostics.push(
+                    this.createDiagnostic(
+                        `Function '${functionName}' is not defined.`,
+                        ctx.ID().symbol,
+                        functionName.length
+                    )
+                );
+                return;
+            }
+            
+            const functionParametersLength = functionDeclaration?.functionParameters()?.type__list().length ?? 0;
+            const functionArgumentsLength = ctx.functionArguments()?.value_list().length ?? 0;
+
+            if (functionParametersLength !== functionArgumentsLength) {
+                this.diagnostics.push(
+                    this.createDiagnostic(
+                        `Function '${functionName}' expects ${functionParametersLength} arguments but got ${functionArgumentsLength}.`,
+                        ctx.start,
+                        ctx.getText().length
+                    )
+                );
+            }
+        }
+    }
+
 
     private createDiagnostic(message: string, token: Token, length: number, severity: Severity = Severity.Error): Diagnostic {
         return {
