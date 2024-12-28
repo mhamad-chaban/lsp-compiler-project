@@ -2,16 +2,39 @@ export interface CompletionItem {
     label: string;
     kind: CompletionItemKind;
     data?: any;
+    insertText?: string;
 }
 
 // Weird numbers are to match the completion item kind value in the lsp
 export enum CompletionItemKind {
     Identifier = 1,
-    Keyword = 14,
-    Variable = 6,
     Function = 3,
-    Operator = 24,
+    Variable = 6,
+    Keyword = 14,
+    Snippet = 15,
+    Operator = 24
 }
+
+export const defaultCompletions: CompletionItem[] = [
+    {
+        label: "puv",
+        kind: CompletionItemKind.Snippet,
+        insertText: "public void ",
+        data: "function"
+    },
+    {
+        label: "prv",
+        kind: CompletionItemKind.Snippet,
+        insertText: "private void ",
+        data: "function"
+    },
+    {
+        label: "pub",
+        kind: CompletionItemKind.Snippet,
+        insertText: "public ",
+        data: "function"
+    }
+]
 
 export const variableTypeCompletions: CompletionItem[] = [
     {
@@ -60,9 +83,4 @@ export const ifCompletions: CompletionItem[] = [
 ]
 
 export const functionCompletions: CompletionItem[] = [
-    {
-        label: "function",
-        kind: CompletionItemKind.Keyword,
-        data: "function"
-    }
 ]
