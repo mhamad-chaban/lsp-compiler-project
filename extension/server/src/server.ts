@@ -117,21 +117,6 @@ connection.onDidChangeConfiguration(change => {
 	connection.languages.diagnostics.refresh();
 });
 
-function getDocumentSettings(resource: string): Thenable<ExampleSettings> {
-	if (!hasConfigurationCapability) {
-		return Promise.resolve(globalSettings);
-	}
-	let result = documentSettings.get(resource);
-	if (!result) {
-		result = connection.workspace.getConfiguration({
-			scopeUri: resource,
-			section: 'languageServerExample'
-		});
-		documentSettings.set(resource, result);
-	}
-	return result;
-}
-
 // Only keep settings for open documents
 documents.onDidClose(e => {
 	documentSettings.delete(e.document.uri);
@@ -171,11 +156,11 @@ async function validateTextDocument(textDocument: TextDocument): Promise<Diagnos
 			range: {
 				start: {
 					line: diagnostic.range.start.line,
-					character: diagnostic.range.start.character
+					character: diagnostic.range.start.character?? 0
 				},
 				end: {
 					line: diagnostic.range.end?.line ?? diagnostic.range.start.line,
-					character: diagnostic.range.end?.character ?? diagnostic.range.start.character
+					character: diagnostic.range.end?.character ?? diagnostic.range.start.character ?? 0
 				}
 			},
 			message: diagnostic.message,

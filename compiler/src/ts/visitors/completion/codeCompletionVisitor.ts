@@ -15,10 +15,7 @@ export class CompletionVisitor extends MyGrammarVisitor<void> {
         this.visitChildren(ctx);
     }
 
-    // Visit variable structure rule and provide completion items based on the context
     public visitVariableStructure = (ctx: VariableStructureContext): void => {
-        this.completions.push(...variableTypeCompletions);
-        
         // completion item for the identifier
         const identifier = ctx.ID();
         // if (identifier) {
@@ -31,10 +28,12 @@ export class CompletionVisitor extends MyGrammarVisitor<void> {
     }
 
     public visitIfStructure = (ctx: IfStructureContext): void => {
+        this.completions = [];
         this.completions.push(...ifCompletions);
     }
 
     public visitFunctionStructure = (ctx: FunctionDeclarationStructureContext): void => {
+        this.completions = [];
         this.completions.push(...functionCompletions);
     }
 }

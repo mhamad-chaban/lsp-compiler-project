@@ -57,14 +57,15 @@ Incomplete statement missing '=':
 Invalid statement without a value:  
 ![Image of invalid statement without a value](/extension/images/syntax/invalidStatementValue.png)
 
-Missing function body:
-![Image of a function declaration without a body](/extension/images/syntax/missingBody.png)
+Missing function brackets:  
+![Image of a function declaration without brackets](/extension/images/syntax/missingBody.png)
 
-If boolean condition is not a boolean:  
+If condition is not a boolean:  
 ![Image of an invalid boolean condition](/extension/images/syntax/invalidBoolean.png)
+
 ---
 #### Semantic
-Ook semanstisch errors/warnings worden onderlijnd en met een message
+Ook semanstisch errors/warnings worden onderlijnd en met een message weergegeven
 
 Type mismatch error:  
 ![Image of a type mismatch error](/extension/images/semantic/typeMismatch.png)
@@ -80,6 +81,7 @@ Function declaration with an empty body:
 
 Always true if:  
 ![Image of a warning of if with only true](/extension/images/semantic/alwaysTrue.png)
+
 ---
 
 ### Code completion
