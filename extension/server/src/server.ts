@@ -211,8 +211,6 @@ connection.onCompletion(
             start: { line: position.line, character: 0 },
             end: { line: position.line, character: Number.MAX_SAFE_INTEGER }
         });
-
-        log('Processing completions for line:', position.line);
 		
 		completions.push(...processCompletions(text));
 		
