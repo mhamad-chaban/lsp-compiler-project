@@ -60,8 +60,8 @@ Invalid statement without a value:
 Missing function brackets:  
 ![Image of a function declaration without brackets](/extension/images/syntax/missingBody.png)
 
-If condition is not a boolean:  
-![Image of an invalid boolean condition](/extension/images/syntax/invalidBoolean.png)
+When 'if' doesn't have a condition:  
+![Image of an invalid boolean condition](/extension/images/syntax/noCondition.png)
 
 ---
 #### Semantic

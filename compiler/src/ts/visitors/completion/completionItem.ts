@@ -81,6 +81,3 @@ export const ifCompletions: CompletionItem[] = [
         data: "false"
     }
 ]
-
-export const functionCompletions: CompletionItem[] = [
-]
