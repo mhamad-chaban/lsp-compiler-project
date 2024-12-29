@@ -48,19 +48,35 @@ while (isOld) {
 Alle syntax errors worden onderlijnd, weergegeven en de message is afhankelijk van de soort error
 
 Incomplete statement without var name:  
+```
+number 
+``` 
 ![Image of incomplete statement diagnostic error with missing var name](/extension/images/syntax/incompleteStatementMissingName.png)
 
 Incomplete statement missing '=':  
+```
+number age 
+```
 ![Image of incomplete statement diagnostic error with missing '='](/extension/images/syntax/incompleteStatementMissingAssign.png)
 
-
 Invalid statement without a value:  
+```
+number age = 
+``` 
 ![Image of invalid statement without a value](/extension/images/syntax/invalidStatementValue.png)
 
 Missing function brackets:  
+```
+public void greeting()
+```  
 ![Image of a function declaration without brackets](/extension/images/syntax/missingBody.png)
 
 When 'if' doesn't have a condition:  
+```
+if() {
+
+}
+```  
 ![Image of an invalid boolean condition](/extension/images/syntax/noCondition.png)
 
 ---
@@ -68,18 +84,45 @@ When 'if' doesn't have a condition:
 Ook semanstisch errors/warnings worden onderlijnd en met een message weergegeven
 
 Type mismatch error:  
+```
+number age = "Twenty";
+```
 ![Image of a type mismatch error](/extension/images/semantic/typeMismatch.png)
 
 Call of undefined function:  
+```
+greeting();
+```  
 ![Image of an error calling an undefined function](/extension/images/semantic/undefinedFunction.png)
 
-Function call without arguements of function with parameters:  
+Function call without required arguments:  
+```
+public void greeting(string name) {
+
+}
+
+greeting();
+```  
 ![Image of an error calling a function with without arguments but the function has required parameters](/extension/images/semantic/wrongNumArgs.png)
 
 Function declaration with an empty body:  
+```
+public void greeting() {
+
+}
+```  
 ![Image of a warning when declaring a function with an empty body](/extension/images/semantic/functionEmptyBody.png)
 
 Always true if:  
+```
+public void greeting() {
+
+}
+
+if(true) {
+    greeting();
+}
+```  
 ![Image of a warning of if with only true](/extension/images/semantic/alwaysTrue.png)
 
 ---
