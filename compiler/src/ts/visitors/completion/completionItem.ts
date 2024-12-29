@@ -19,13 +19,13 @@ export const defaultCompletions: CompletionItem[] = [
     {
         label: "puv",
         kind: CompletionItemKind.Snippet,
-        insertText: "public void ",
+        insertText: "public void functionName() {\n\n}",
         data: "function"
     },
     {
         label: "prv",
         kind: CompletionItemKind.Snippet,
-        insertText: "private void ",
+        insertText: "private void functionName() {\n\n}",
         data: "function"
     },
     {

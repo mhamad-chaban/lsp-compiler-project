@@ -86,7 +86,7 @@ function processDiagnostics(input: string): Diagnostic[] {
     return [...syntaxDiagnostics, ...semanticDiagnostics];
 }
 
-function processCompletions(input: string, position: Position): CompletionItem[] {
+function processCompletions(input: string): CompletionItem[] {
     // Create a CharStream from the input
     const inputStream = CharStreams.fromString(input);
 

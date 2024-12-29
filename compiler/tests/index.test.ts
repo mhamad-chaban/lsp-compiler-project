@@ -1,38 +1,16 @@
-import { CharStreams, CommonTokenStream, } from "antlr4";
-import  MyGrammarParser from "../src/generated/MyGrammarParser";
-import { CustomErrorListener } from "../src/ts/visitors/diagnostic/customErrorlistener";
-import { DiagnosticsVisitor } from "../src/ts/visitors/diagnostic/diagnosticsVisitor";
-import MyGrammarLexer from "../src/generated/MyGrammarLexer";
-import { Diagnostic, Severity } from "../src/ts/visitors/diagnostic/diagnostic";
-import { processDiagnostics } from "../src/index";
+import { Severity } from "../src/ts/visitors/diagnostic/diagnostic";
+import { processCompletions, processDiagnostics } from "../src/index";
+import { CompletionItemKind } from "../src/ts/visitors/completion/completionItem";
 
 describe('Syntax diagnostics', () => {
-    function processSyntaxDiagnostic(input: string): Diagnostic[] {
-        const inputStream = CharStreams.fromString(input);
-        const lexer = new MyGrammarLexer(inputStream);
-        const tokenStream = new CommonTokenStream(lexer);
-        const parser = new MyGrammarParser(tokenStream);
-
-        const errorListener = new CustomErrorListener();
-        parser.removeErrorListeners();
-        parser.addErrorListener(errorListener);
-
-        const tree = parser.program();
-        const diagnosticsVisitor = new DiagnosticsVisitor();
-        diagnosticsVisitor.visit(tree);
-
-        const syntaxDiagnostics = errorListener.getDiagnostics();
-        return syntaxDiagnostics;
-    }
-
     it('should return incomplete statement error', () => {
-        const diagnostics = processSyntaxDiagnostic('number age');
+        const diagnostics = processDiagnostics('number age');
         expect(diagnostics).toHaveLength(1);
         expect(diagnostics[0].message).toBe("Incomplete statement. Expected '='.");
     })
 
     it('should return incomplete statement error for missing value', () => {
-        const diagnostics = processSyntaxDiagnostic('number age = ');
+        const diagnostics = processDiagnostics('number age = ');
         expect(diagnostics).toHaveLength(1);
         expect(diagnostics[0].message).toBe("Invalid statement. Expected a number value.");
     })
@@ -67,5 +45,43 @@ describe('Semantic diagnostics', () => {
             `);
         expect(diagnostics).toHaveLength(1);
         expect(diagnostics[0].message).toBe("Function 'sayHello' expects 1 arguments but got 0.");
+    })
+});
+
+describe('Completion items', () => {
+    it('should contain live templates for function declaration', () => {
+        const completionItems = processCompletions('p');
+        
+        // puv
+        const puvItem = completionItems.find(item => item.label === 'puv');
+        expect(puvItem).toBeDefined();
+        expect(puvItem?.insertText).toBe('public void functionName() {\n\n}');
+        
+        // prv
+        const prvItem = completionItems.find(item => item.label === 'prv');
+        expect(prvItem?.insertText).toBe('private void functionName() {\n\n}');
+    })
+
+    it('should contain variable types', () => {
+        const completionItems = processCompletions('n');
+
+        const numberItem = completionItems.find(item => item.label === 'number');
+        expect(numberItem).toBeDefined();
+        expect(numberItem!.kind).toBe(CompletionItemKind.Keyword);
+
+        const booleanItem = completionItems.find(item => item.label === 'boolean');
+        expect(booleanItem).toBeDefined();
+        expect(booleanItem!.kind).toBe(CompletionItemKind.Keyword);
+
+        const stringItem = completionItems.find(item => item.label === 'string');
+        expect(stringItem).toBeDefined();
+        expect(stringItem!.kind).toBe(CompletionItemKind.Keyword);
+    })
+
+    it('should contain if completion item (adds parentheses and braces)', () => {
+        const completionItems = processCompletions('if');
+        const ifItem = completionItems.find(item => item.label === 'if() {\n\n}');
+        expect(ifItem).toBeDefined();
+        expect(ifItem!.kind).toBe(CompletionItemKind.Keyword);
     })
 });

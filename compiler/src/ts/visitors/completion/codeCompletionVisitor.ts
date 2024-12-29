@@ -11,6 +11,7 @@ export class CompletionVisitor extends MyGrammarVisitor<void> {
     // Visit root rule program
     public visitProgram = (ctx: ProgramContext): void => {
         this.completions.push(...defaultCompletions);
+        this.completions.push(...variableTypeCompletions);
         this.visitChildren(ctx);
     }
 
