@@ -47,50 +47,50 @@ while (isOld) {
 #### Syntax
 Alle syntax errors worden onderlijnd, weergegeven en de message is afhankelijk van de soort error
 
-Incomplete statement without var name:
+Incomplete statement without var name:  
 ![Image of incomplete statement diagnostic error with missing var name](/extension/images/syntax/incompleteStatementMissingName.png)
 
-Incomplete statement missing '=':
+Incomplete statement missing '=':  
 ![Image of incomplete statement diagnostic error with missing '='](/extension/images/syntax/incompleteStatementMissingAssign.png)
 
 
-Invalid statement without a value:
+Invalid statement without a value:  
 ![Image of invalid statement without a value](/extension/images/syntax/invalidStatementValue.png)
 
 Missing function body:
 ![Image of a function declaration without a body](/extension/images/syntax/missingBody.png)
 
-If boolean condition is not a boolean:
+If boolean condition is not a boolean:  
 ![Image of an invalid boolean condition](/extension/images/syntax/invalidBoolean.png)
 ---
 #### Semantic
 Ook semanstisch errors/warnings worden onderlijnd en met een message
 
-Type mismatch error:
+Type mismatch error:  
 ![Image of a type mismatch error](/extension/images/semantic/typeMismatch.png)
 
-Call of undefined function:
+Call of undefined function:  
 ![Image of an error calling an undefined function](/extension/images/semantic/undefinedFunction.png)
 
-Function call without arguements of function with parameters:
+Function call without arguements of function with parameters:  
 ![Image of an error calling a function with without arguments but the function has required parameters](/extension/images/semantic/wrongNumArgs.png)
 
-Function declaration with an empty body:
+Function declaration with an empty body:  
 ![Image of a warning when declaring a function with an empty body](/extension/images/semantic/functionEmptyBody.png)
 
-Always true if:
+Always true if:  
 ![Image of a warning of if with only true](/extension/images/semantic/alwaysTrue.png)
 ---
 
 ### Code completion
 Basis code completion is mogelijk voor types en functies
 
-Types completion:
+Types completion:  
 ![Image of a completion pop up when typing letter n](/extension/images/completion/numberComp.png)
 ![Image of a completion pop up when typing s](/extension/images/completion/stringComp.png)
 ![Image of a completion pop up when typing b](/extension/images/completion/booleanComp.png)
 
-Live templates:
+Live templates:  
 ![Image of a completion pop up when typing p](/extension/images/completion/funLiveTemp.png)
 
 Will auto complete to:
