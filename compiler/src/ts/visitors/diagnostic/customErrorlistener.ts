@@ -1,8 +1,8 @@
 import { Token, ErrorListener, RecognitionException, Recognizer, IntervalSet } from "antlr4";
-import { Diagnostic, Severity } from "./diagnostic/diagnostic";
+import { Diagnostic, Severity } from "./diagnostic";
 import { log } from "console";
-import MyGrammarParser from "../../generated/MyGrammarParser";
-import MyGrammarLexer from "../../generated/MyGrammarLexer";
+import MyGrammarParser from "../../../generated/MyGrammarParser";
+import MyGrammarLexer from "../../../generated/MyGrammarLexer";
 
 export class CustomErrorListener implements ErrorListener<Token> {
     private diagnostics: Diagnostic[] = [];
@@ -51,7 +51,7 @@ export class CustomErrorListener implements ErrorListener<Token> {
                 }
             },
             severity: Severity.Error,
-            source: 'MyGrammar'
+            source: 'MyAntlr'
         });
     }
 

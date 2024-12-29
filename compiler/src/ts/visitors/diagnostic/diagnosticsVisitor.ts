@@ -1,8 +1,8 @@
 import { Token } from "antlr4";
 import { VariableStructureContext, ValueContext, IfStructureContext, StatementContext, BooleanFactorContext, FunctionDeclarationStructureContext, FunctionCallContext, ProgramContext } from "../../../generated/MyGrammarParser.js";
-import MyGrammarVisitor from "../../../generated/MyGrammarVisitor.js";
-import { Diagnostic, diagnosticMessages, Severity } from "./diagnostic.js";
+import { Diagnostic, diagnosticMessages, Severity } from "./diagnostic";
 import { log } from "console";
+import MyGrammarVisitor from "../../../generated/MyGrammarVisitor";
 
 export class DiagnosticsVisitor extends MyGrammarVisitor<void> {
     private diagnostics: Diagnostic[] = [];
@@ -132,7 +132,7 @@ export class DiagnosticsVisitor extends MyGrammarVisitor<void> {
                 end: { line: token.line - 1, character: token.column + length }
             },
             severity: severity,
-            source: 'MyGrammar'
+            source: 'MyAntlr'
         };
     }
 
