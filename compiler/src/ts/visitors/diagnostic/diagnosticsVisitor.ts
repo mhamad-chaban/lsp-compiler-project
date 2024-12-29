@@ -84,7 +84,7 @@ export class DiagnosticsVisitor extends MyGrammarVisitor<void> {
             const length = stopToken ? stopToken.stop - stopToken.start : 1; // Provide a default length if stopToken is undefined
             this.diagnostics.push(
                 this.createDiagnostic(
-                    diagnosticMessages.emptyStatement,
+                    diagnosticMessages.emptyBody,
                     ctx.start,
                     length,
                     Severity.Warning

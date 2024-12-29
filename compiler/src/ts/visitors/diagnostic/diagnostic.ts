@@ -27,5 +27,5 @@ export const diagnosticMessages =
         stringError: 'Type mismatch. Expected a string but got \'${valueText}\'.',
         booleanError: 'Type mismatch. Expected a boolean but got \'${valueText}\'.',
         alwaysTrue: 'Warning: The condition is always true.',
-        emptyStatement: 'Warning: Empty statement.'
+        emptyBody: 'Warning: Empty body.'
     }

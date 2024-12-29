@@ -1,12 +1,12 @@
 import { CharStreams, CommonTokenStream } from "antlr4";
-import MyGrammarLexer from "./generated/MyGrammarLexer.js";
-import MyGrammarParser from "./generated/MyGrammarParser.js";
-import { DiagnosticsVisitor } from "./ts/visitors/diagnostic/diagnosticsVisitor.js";
-import { Diagnostic } from "./ts/visitors/diagnostic/diagnostic.js";
-import { CustomErrorListener } from "./ts/visitors/diagnostic/customErrorlistener.js";
-import { CompletionItem } from "./ts/visitors/completion/completionItem.js";
-import { CompletionVisitor } from "./ts/visitors/completion/codeCompletionVisitor.js";
-import { Position } from "./ts/visitors/completion/position.js";
+import MyGrammarLexer from "./generated/MyGrammarLexer";
+import MyGrammarParser from "./generated/MyGrammarParser";
+import { DiagnosticsVisitor } from "./ts/visitors/diagnostic/diagnosticsVisitor";
+import { Diagnostic } from "./ts/visitors/diagnostic/diagnostic";
+import { CustomErrorListener } from "./ts/visitors/diagnostic/customErrorlistener";
+import { CompletionItem } from "./ts/visitors/completion/completionItem";
+import { CompletionVisitor } from "./ts/visitors/completion/codeCompletionVisitor";
+import { Position } from "./ts/visitors/completion/position";
 
 
 const numberInput = `
