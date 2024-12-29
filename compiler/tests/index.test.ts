@@ -1,6 +1,49 @@
 import { Severity } from "../src/ts/visitors/diagnostic/diagnostic";
 import { processCompletions, processDiagnostics } from "../src/index";
 import { CompletionItemKind } from "../src/ts/visitors/completion/completionItem";
+import { CharStreams, CommonTokenStream } from "antlr4";
+import MyGrammarLexer from "../src/generated/MyGrammarLexer";
+import MyGrammarParser from "../src/generated/MyGrammarParser";
+
+function parseInput(input: string) {
+    const inputStream = CharStreams.fromString(input);
+    const lexer = new MyGrammarLexer(inputStream);
+    const tokenStream = new CommonTokenStream(lexer);
+    const parser = new MyGrammarParser(tokenStream);
+    return { tree: parser.program(), parser };
+}
+
+describe('Parser tests', () => {
+    it('should parse variable declaration', () => {
+        const { tree, parser } = parseInput('number age = 10;');
+        expect(tree).toBeDefined();
+        expect(tree.toStringTree(parser.ruleNames, parser)).toBe('(program (variableStructure (type (defaultType number)) age = (value 10) ;) <EOF>)');
+    })
+
+    it('should parse function declaration', () => {
+        const { tree, parser } = parseInput('public void sayHello() {}');
+        expect(tree).toBeDefined();
+        expect(tree.toStringTree(parser.ruleNames, parser)).toBe('(program (functionDeclarationStructure public void sayHello ( ) { }) <EOF>)');
+    })
+
+    it('should parse function call', () => {
+        const { tree, parser } = parseInput('sayHello();');
+        expect(tree).toBeDefined();
+        expect(tree.toStringTree(parser.ruleNames, parser)).toBe('(program (functionCall sayHello ( ) ;) <EOF>)');
+    })
+
+    it('should parse if statement', () => {
+        const { tree, parser } = parseInput('if (true) {}');
+        expect(tree).toBeDefined();
+        expect(tree.toStringTree(parser.ruleNames, parser)).toBe('(program (ifStructure if ( (booleanExpression (booleanTerm (booleanFactor true))) ) { }) <EOF>)');
+    })
+
+    it('should parse if else statement', () => {
+        const { tree, parser } = parseInput('if (true) {} else {}');
+        expect(tree).toBeDefined();
+        expect(tree.toStringTree(parser.ruleNames, parser)).toBe('(program (ifStructure if ( (booleanExpression (booleanTerm (booleanFactor true))) ) { } else { }) <EOF>)');
+    })
+});
 
 describe('Syntax diagnostics', () => {
     it('should return incomplete statement error', () => {

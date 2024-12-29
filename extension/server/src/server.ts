@@ -214,7 +214,7 @@ connection.onCompletion(
 
         log('Processing completions for line:', position.line);
 		
-		completions.push(...processCompletions(text, position));
+		completions.push(...processCompletions(text));
 		
 		return completions;
 	}
