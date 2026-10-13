@@ -1,5 +1,4 @@
-# Mhamad Chaban
-## Project - Compiler
+# Project - Compiler
 
 ### Antlr grammatica - ondersteunde broncode
 Variabele initialisatie voor types: number, boolean en string
